@@ -15,7 +15,7 @@ export default function Catalog() {
         <div className="dsc-catalog-cards dsc-mb20 dsc-mt20">
           {
             productService.findAll().map(
-              product => <CatalogCard Key={product.id} product={product} />)
+              product => <CatalogCard key={product.id} product={product} />)
           }
         </div>
         <ButtonNextPage />
