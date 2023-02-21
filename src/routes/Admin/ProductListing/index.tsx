@@ -22,7 +22,8 @@ export default function ProductListing() {
 
   const [dialogConfirmationData, setDialogConfirmationData] = useState({
     visible: false,
-    message: "Tem certeza?",
+    id: 0,
+    message: "Tem certeza?"
   });
 
   const [isLastPage, setIsLastPage] = useState(false);
@@ -57,12 +58,25 @@ export default function ProductListing() {
     setDialogInfoData({ ...dialogInfoData, visible: false });
   }
 
-  function handleDeleteClick() {
-    setDialogConfirmationData({ ...dialogConfirmationData, visible: true });
+  function handleDeleteClick(productId: number) {
+    setDialogConfirmationData({ ...dialogConfirmationData, id: productId, visible: true });
   }
 
-  function handleDialogConfirmationAnswer(answer: boolean) {
-    console.log("Resposta", answer);
+  function handleDialogConfirmationAnswer(answer: boolean, productId: number) {
+    if (answer) {
+      productService.deleteById(productId)
+        .then(() => {
+          setProducts([]);
+          setQueryParams({ ...queryParams, page: 0 });
+        })
+        .catch(error => {
+          setDialogInfoData({
+            visible: true, 
+            message: error.response.data.error
+          })
+        });
+    }
+
     setDialogConfirmationData({ ...dialogConfirmationData, visible: false });
   }
 
@@ -110,7 +124,7 @@ export default function ProductListing() {
                 </td>
                 <td>
                   <img
-                    onClick={handleDeleteClick}
+                    onClick={() => handleDeleteClick(product.id)}
                     className="dsc-product-listing-btn"
                     src={deleteIcon}
                     alt="Deletar"
@@ -131,6 +145,7 @@ export default function ProductListing() {
       )}
       {dialogConfirmationData.visible && (
         <DialogConfirmaton
+          id={dialogConfirmationData.id}
           message={dialogConfirmationData.message}
           onDialogAnswer={handleDialogConfirmationAnswer}
         />
