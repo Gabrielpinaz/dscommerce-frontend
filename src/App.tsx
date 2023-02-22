@@ -17,7 +17,7 @@ import * as authService from "./services/auth-service";
 import * as cartService from "./services/cart-service";
 import Confirmation from "./routes/ClientHome/Confirmation";
 import ProductListing from "./routes/Admin/ProductListing";
-import ProductLForm from "./routes/Admin/ProductLForm";
+import ProductForm from "./routes/Admin/ProductForm";
 
 export default function App() {
   const [contextCartCount, setContextCartCount] = useState<number>(0);
@@ -72,7 +72,7 @@ export default function App() {
               <Route index element={<Navigate to="/admin/home" />} />
               <Route path="home" element={<AdminHome />} />
               <Route path="products" element={<ProductListing />} />
-              <Route path="products/:productId" element={<ProductLForm />} />
+              <Route path="products/:productId" element={<ProductForm />} />
             </Route>
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
