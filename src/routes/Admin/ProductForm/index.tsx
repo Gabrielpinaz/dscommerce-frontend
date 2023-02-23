@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import FormInput from "../../../components/FormInput";
 import * as forms from "../../../utils/forms";
 import * as productServices from "../../../services/product-service";
+import FormTextArea from "../../../components/FormTextArea";
 
 export default function ProductForm() {
   const params = useParams();
@@ -17,10 +18,10 @@ export default function ProductForm() {
       name: "name",
       type: "text",
       placeholder: "Nome",
-      validation: function(value: string) {
+      validation: function (value: string) {
         return /^.{3,80}$/.test(value);
       },
-      message: "Favvor informar um nome de 3 a 80 caracteres"
+      message: "Favvor informar um nome de 3 a 80 caracteres",
     },
     price: {
       value: "",
@@ -39,6 +40,17 @@ export default function ProductForm() {
       name: "imgUrl",
       type: "text",
       placeholder: "Imagem",
+    },
+    description: {
+      value: "",
+      id: "description",
+      name: "description",
+      type: "text",
+      placeholder: "Descrição",
+      validation: function (value: any) {
+        return /^.{10,}$/.test(value);
+      },
+      message: "A descrição deve ter pelo menos 10 caracteres",
     },
   });
 
@@ -93,6 +105,15 @@ export default function ProductForm() {
                   onTurnDirty={handleTurnDirty}
                   onChange={handleInputChange}
                 />
+              </div>
+              <div>
+                <FormTextArea
+                  {...formData.description}
+                  className="dsc-form-control dsc-textarea"
+                  onTurnDirty={handleTurnDirty}
+                  onChange={handleInputChange}
+                />
+                <div className="dsc-form-error">{formData.description.message}</div>
               </div>
             </div>
 
